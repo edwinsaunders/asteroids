@@ -2,6 +2,8 @@ import pygame
 
 from constants import *
 from player import *
+from asteroid import *
+from asteroidfield import *
 
 
 def main():
@@ -14,11 +16,16 @@ def main():
     # Sprite groups
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+
+    # Add classes to groups for all instances
     Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = updateable
 
     # define all sprites after group definitions otherwise, NameError - group not defined
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-
+    field = AsteroidField()
     
 
     clock = pygame.time.Clock()
