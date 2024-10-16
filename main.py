@@ -11,7 +11,15 @@ def main():
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
 
+    # Sprite groups
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updateable, drawable)
+
+    # define all sprites after group definitions otherwise, NameError - group not defined
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    
 
     clock = pygame.time.Clock()
     dt = 0
@@ -21,8 +29,10 @@ def main():
                 return
 
         screen.fill("0x000000")
-        player.update(dt)
-        player.draw(screen)
+        for sprite in updateable:
+            sprite.update(dt)
+        for sprite in drawable:
+            sprite.draw(screen)
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
