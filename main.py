@@ -24,7 +24,7 @@ def main():
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = updateable
-    Shot.containers = (updateable, drawable)
+    Shot.containers = (shots, updateable, drawable)
 
     # define all sprites after group definitions otherwise, NameError - group not defined
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -43,15 +43,26 @@ def main():
         for sprite in updateable:
             sprite.update(dt)
 
-        for sprite in drawable:
-            sprite.draw(screen)
+       
         
-        # collision check
+        # player collision check
         for sprite in asteroids:
             if player.collision_check(sprite):
                 print("Game over!")
                 return
-        
+
+        # shot collision check
+        for ast_sprite in asteroids:
+            for shot_sprite in shots:
+                if ast_sprite.collision_check(shot_sprite):
+                    #remove sprites from all groups
+                    ast_sprite.kill()
+                    shot_sprite.kill()
+
+
+        for sprite in drawable:
+            sprite.draw(screen)
+
         pygame.display.flip()
 
         dt = clock.tick(60) / 1000
