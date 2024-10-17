@@ -56,7 +56,7 @@ def main():
             for shot_sprite in shots:
                 if ast_sprite.collision_check(shot_sprite):
                     #remove sprites from all groups
-                    ast_sprite.kill()
+                    ast_sprite.split()
                     shot_sprite.kill()
 
 
